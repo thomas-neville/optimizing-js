@@ -15,10 +15,41 @@
   <body>
     <h1>Optimizing Javascript and Page Load Times</h1>
     <article>
-      <p>This essay will discuss high level approaches to optimizing Javascript for more effient ways of executing code and reducing page load times. It will not go into detail about specific libraries and frameworks for Javascript such as jQuery or AngularJS. This essay will also assume that Javascript is needed for the web components being discussed.</p>
+      <p>This essay will discuss high level approaches to optimizing Javascript for more efficient ways of executing code and reducing page load times. It will not go into detail about specific libraries and frameworks for Javascript such as jQuery or AngularJS. This essay will also assume that Javascript is needed for the web components being discussed.</p>
       
-      <p>First, the fewer elements in the HTML Document Object Model (DOM), the faster the webpage will be created by the browser. When directing Javascript to find an element, e.g. <code>document.getElementById("main")</code>, it will search through the each element to find </p>
+      <p>First, the fewer elements in the HTML Document Object Model (DOM), the faster Javascript can find objects and make the requested changes. Here's some example HTML code:</p>
       
+      <code>
+        &lt;p>text line 1&lt;/p>
+        <br>
+        &lt;p>text line 2&lt;/p>
+        <br>
+        &lt;p id="special">text line 3&lt;/p> (We want this one)
+        <br>
+        &lt;p>text line 4&lt;/p>
+      </code>
+      
+      <p>We want to take the third line and use it in our Javascript. Using a statement with specificity like: </p>
+      
+      <code>var specialText = document.getElementById("special")</code> 
+      
+      <p>directs our Javascript to find an element with the unique ID of "special". This method is an obvious and simple process that will add minimal additional time for the page to load and is a fast way to access an element.</p>
+      
+      <p>When making changes to the DOM you want to group or batch these changes if possible, especially when manipulating styles. Each time the DOM is changed, the browser will need to re-render it. An efficient way to change styles is to create a class in CSS and apply the class to an element using:
+      
+      <code>document.getElementById("special").classList.add("my-class")</code>
+      
+      <p>This will apply whatever CSS styles the "my-class" selector contains to the element found by <b>getElementById()</b>. </p>
+      
+      <p>When developing a function avoid directing it to another function, which might direct to another function (and to a fourth, fifth, etc.) If possible skip the middle functions and call for the appropriate data from the ending function. In some cases it may be better to use global variables that are manipulated locally in different functions if they need to be shared across the script. </p>
+      
+      <p>With more complex functions like loops, each iteration will run through the statements in the function. If the function has many statements that need to access lots of objects and arrays, then the function should designed to run through the loop as few times as possible. The more times it needs to refer to objects outside of the loop, the longer it will take. Unnecessary repetition will increase the time it takes to render.</p>
+      
+      <p>A similar issue can result from event handlers that call for functions repeatedly. If the event handler could or will be used in quick succession, like <b>mouseover</b>, the function it calls should be relatively simple to execute. A complex function here could crash the browser.</p>
+      
+      <p>By placing the links to your scripts at the end of the HTML body, the browser can load the lighter weight HTML first. When the browser encounters a script it attempts to download and parse it before moving on. Larger scripts can take up more processing power and bandwidth, which might mean stalling the rest of the page from loading. There are also methods of initially loading the parts of your Javascript that will have an impact for the visitor. The parts that could potentially be delayed might be functionality that the visitor would not see or use immediately when landing on the page. Examples of this might be a newsletter form in the footer or functions that are visibly hidden until some other action is taken on the page. There are also free online tools that will remove extra white space in your code to reduce the file size. This is one way to reduce the bandwidth required when a user visits your page.</p>
+            
+      <p>In conclusion, Javascript will often be necessary for functionality on webpages and optimizing your scripts can be done in many different ways. Consolidating the path your script takes to perform changes on the DOM will be situational and these practices should only be taken as general guidance. After writing your code, go back to edit and condense your work. Simplifying your code as much as possible will make it perform better in the browser.</p>     
     </article>
   
   </body>
